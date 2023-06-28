@@ -1,0 +1,86 @@
+type: object
+properties:
+  flavour_id:
+    type: string
+    description: Unique identifier for the offer
+  node_id:
+    type: string
+    description: ID of the corresponding FLUIDOS node
+  type:
+    type: string
+    description: Type of the Flavour (e.g., VM, K8s Cluster, etc.)
+  characteristics:
+    type: object
+    properties:
+      cpu:
+        type: integer
+        minimum: 1
+        description: Number of CPUs or CPU specifications
+      ram:
+        type: integer
+        minimum: 1
+        description: Amount of RAM
+      # Add additional characteristics as needed
+    required:
+      - cpu
+      - ram
+    additionalProperties: false
+  flags:
+    type: object
+    properties:
+      aggregatable:
+        type: boolean
+        description: Boolean value indicating if the Flavour is aggregatable
+      partitionable:
+        type: boolean
+        description: Boolean value indicating if the Flavour is partitionable
+    additionalProperties: false
+  availability:
+    type: string
+    description: Availability status of the Flavour (e.g., available or purchased)
+  price_or_fee:
+    type: number
+    description: Price or fee associated with the Flavour
+  ttl:
+    type: string
+    description: Parametric value indicating the reservation duration
+  optional_fields:
+    type: object
+    # Add additional optional fields as needed
+    additionalProperties: true
+required:
+  - flavour_id
+  - node_id
+  - type
+  - characteristics
+  - flags
+  - availability
+additionalProperties: false
+if:
+  properties:
+    flags:
+      properties:
+        aggregatable:
+          const: true
+  then:
+    properties:
+      flags:
+        properties:
+          mincount:
+            type: integer
+            minimum: 1
+            description: Minimum number of Flavours to be aggregated
+else:
+  properties:
+    flags:
+      properties:
+        partitionable:
+          const: true
+  then:
+    properties:
+      characteristics:
+        properties:
+          cpu:
+            minimum: 1
+          ram:
+            minimum: 1
