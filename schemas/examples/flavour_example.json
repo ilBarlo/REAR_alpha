@@ -1,0 +1,26 @@
+{
+    "flavourID": "flavour123",
+    "providerID": "provider456",
+    "type": "VM",
+    "characteristics": {
+      "cpu": "4",
+      "ram": "8GB"
+    },
+    "policy": {
+      "aggregatable": false,
+      "partitionable": true,
+      "cpuMinimum": 1,
+      "ramMinimum": 2,
+      "cpuStep": 1,
+      "ramStep": 1
+    },
+    "owner": "example.com",
+    "availability": true,
+    "price": 10.99,
+    "expirationTime": "2023-12-31T23:59:59Z",
+    "optionalFields": {
+      "limitations": "No GPU support",
+      "promotions": "50% off for the first month"
+    }
+  }
+  
