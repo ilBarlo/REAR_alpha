@@ -1,0 +1,14 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "http://rear.com/aggregatable.schema.json",
+    "title": "Aggregatable",
+    "type": "object",
+    "properties": {
+        "mincount": {
+            "type": "integer"
+        }
+    },
+    "required": [
+        "mincount"
+    ]
+}

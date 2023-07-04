@@ -1,0 +1,26 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "http://rear.com/partitionable.schema.json",
+    "title": "Partitionable",
+    "type": "object",
+    "properties": {
+        "cpuMinimum": {
+            "type": "integer"
+        },
+        "ramMinimum": {
+            "type": "integer"
+        },
+        "cpuStep": {
+            "type": "integer"
+        },
+        "ramStep": {
+            "type": "integer"
+        }
+    },
+    "required": [
+        "cpuMinimum",
+        "ramMinimum",
+        "cpuStep",
+        "ramStep"
+    ]
+}

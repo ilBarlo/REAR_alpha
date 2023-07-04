@@ -1,26 +1,37 @@
 {
     "flavourID": "flavour123",
     "providerID": "provider456",
-    "type": "VM",
+    "type": "flavourType",
     "characteristics": {
-      "cpu": "4",
-      "ram": "8GB"
+      "cpu": "4 cores",
+      "ram": "8 GB"
     },
-    "policy": {
-      "aggregatable": false,
-      "partitionable": true,
-      "cpuMinimum": 1,
-      "ramMinimum": 2,
-      "cpuStep": 1,
-      "ramStep": 1
-    },
-    "owner": "example.com",
+    "policy": [
+      {
+        "$ref": "http://rear.com/partitionable.schema.json",
+        "cpuMinimum": 2,
+        "ramMinimum": 4,
+        "cpuStep": 1,
+        "ramStep": 2
+      },
+      {
+        "$ref": "http://rear.com/aggregatable.schema.json",
+        "mincount": 10
+      }
+    ],
+    "owner": "provider456",
     "availability": true,
-    "price": 10.99,
-    "expirationTime": "2023-12-31T23:59:59Z",
+    "price": {
+      "$ref": "http://rear.com/price.schema.json",
+      "amount": 10.99,
+      "currency": "USD",
+      "unit": "hourly"
+    },
+    "expirationTime": "2023-06-30T12:00:00Z",
     "optionalFields": {
-      "limitations": "No GPU support",
-      "promotions": "50% off for the first month"
+      "field1": "value1",
+      "field2": "value2"
     }
   }
+  
   
