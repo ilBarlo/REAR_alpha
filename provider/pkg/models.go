@@ -70,13 +70,28 @@ type Selector struct {
 
 // getSyntat returns the syntax for the selector
 func getSyntax() Selector {
-
 	// Create the selector
 	selector := Selector{
 		CPU:         2,
 		RAM:         4,
 		FlavourType: "VM",
 	}
-
 	return selector
 }
+
+// Transaction contains information regarding the transaction for a flavour
+type Transaction struct {
+	TransactionID string    `json:"transactionID"`
+	FlavourID     string    `json:"flavourID"`
+	StartTime     time.Time `json:"startTime,omitempty"`
+}
+
+// Purchase contains information regarding the purchase for a flavour
+type Purchase struct {
+	TransactionID string `json:"transactionID"`
+	FlavourID     string `json:"flavourID"`
+	BuyerID       string `json:"buyerID"`
+}
+
+// transactions is a map of Transaction
+var transactions map[string]Transaction
