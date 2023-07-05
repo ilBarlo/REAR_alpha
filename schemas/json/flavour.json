@@ -42,10 +42,18 @@
       }
     },
     "owner": {
-      "type": "string"
-    },
-    "availability": {
-      "type": "boolean"
+      "type": "object",
+      "properties": {
+        "ID": {
+          "type": "string"
+        },
+        "IP": {
+          "type": "string"
+        },
+        "domainName": {
+          "type": "string"
+        }
+      }
     },
     "price": {
       "$ref": "http://rear.com/price.schema.json"
@@ -55,7 +63,12 @@
       "format": "date-time"
     },
     "optionalFields": {
-      "type": "object"
+      "type": "object",
+      "properties": {
+        "availability": {
+          "type": "boolean"
+        }
+      }
     }
   },
   "required": [

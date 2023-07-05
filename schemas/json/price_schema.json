@@ -10,7 +10,7 @@
         "currency": {
             "type": "string"
         },
-        "unit": {
+        "period": {
             "type": "string"
         }
     },

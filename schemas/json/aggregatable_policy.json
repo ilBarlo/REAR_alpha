@@ -4,7 +4,10 @@
     "title": "Aggregatable",
     "type": "object",
     "properties": {
-        "mincount": {
+        "minCount": {
+            "type": "integer"
+        },
+        "maxCount": {
             "type": "integer"
         }
     },
