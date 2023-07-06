@@ -104,6 +104,23 @@ func flavourMatchesSelector(flavour Flavour, selector Selector) bool {
 	return true
 }
 
+// Function to get a Flavour by ID
+func getFlavourByID(flavourID string) (*Flavour, error) {
+	// Create a filter for the query
+	filter := bson.M{"flavourID": flavourID}
+
+	// Define a variable to store the retrieved Flavour
+	var flavour Flavour
+
+	// Perform the MongoDB query
+	err := collection.FindOne(context.TODO(), filter).Decode(&flavour)
+	if err != nil {
+		return nil, err
+	}
+
+	return &flavour, nil
+}
+
 func getFlavourTypes() []string {
 	flavours, _ := listAllFlavours()
 	types := make([]string, 0)

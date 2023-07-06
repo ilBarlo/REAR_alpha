@@ -3,7 +3,7 @@ package pkg
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"log"
 	"net/http"
 	"time"
@@ -45,7 +45,7 @@ func listAllFlavoursHandler(w http.ResponseWriter, r *http.Request) {
 
 func listAllFlavoursSelectorHandler(w http.ResponseWriter, r *http.Request) {
 	// Read the request body
-	body, err := ioutil.ReadAll(r.Body)
+	body, err := io.ReadAll(r.Body)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
@@ -95,10 +95,11 @@ func reserveFlavourHandler(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	flavourID := params["flavourID"]
 
-	// Check if the Flavour exists
-	//
-	//
-	// REMEMBER
+	flavour, _ := getFlavourByID(flavourID)
+	if flavour == nil {
+		http.Error(w, "Flavour not found", http.StatusNotFound)
+		return
+	}
 
 	// Create a new transaction
 	transactionID := generateTransactionID()
@@ -119,12 +120,6 @@ func reserveFlavourHandler(w http.ResponseWriter, r *http.Request) {
 	// Save the transaction in the transactions map
 	transactions[transactionID] = transaction
 
-	// // Start a 10-second timer
-	// go func() {
-	// 	<-time.After(10 * time.Second)
-	// 	delete(transactions, transactionID)
-	// }()
-
 	// Respond with the Flavours as JSON
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(transaction)
@@ -137,7 +132,7 @@ func purchaseFlavourHandler(w http.ResponseWriter, r *http.Request) {
 	flavourID := params["flavourID"]
 
 	// Read the request body
-	body, err := ioutil.ReadAll(r.Body)
+	body, err := io.ReadAll(r.Body)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
