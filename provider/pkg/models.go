@@ -68,7 +68,7 @@ type Selector struct {
 	FlavourType string `json:"type,omitempty"`
 }
 
-// getSyntat returns the syntax for the selector
+// getSyntax returns the syntax for the selector
 func getSyntax() Selector {
 	// Create the selector
 	selector := Selector{
