@@ -18,6 +18,7 @@ func StartHttpServer() {
 
 	// routes definition
 	router.HandleFunc("/api/listflavours", listAllFlavoursHandler).Methods("GET")
+	router.HandleFunc("/api/listflavours/{flavourID}", getFlavourByIDHandler).Methods("GET")
 	router.HandleFunc("/api/listflavours/selector", listAllFlavoursSelectorHandler).Methods("GET")
 	router.HandleFunc("/api/reserveflavour/{flavourID}", reserveFlavourHandler).Methods("POST")
 	router.HandleFunc("/api/purchaseflavour/{flavourID}", purchaseFlavourHandler).Methods("POST")
@@ -43,6 +44,7 @@ func listAllFlavoursHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(flavours)
 }
 
+// listAllFlavoursSelectorHandler list all flavours that fit the selector
 func listAllFlavoursSelectorHandler(w http.ResponseWriter, r *http.Request) {
 	// Read the request body
 	body, err := io.ReadAll(r.Body)
@@ -73,6 +75,24 @@ func listAllFlavoursSelectorHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(flmatch)
 }
 
+// getFlavourByIDHandler gets the single Flavour by its FlavourID
+func getFlavourByIDHandler(w http.ResponseWriter, r *http.Request) {
+	// Get the flavourID value from the URL parameters
+	params := mux.Vars(r)
+	flavourID := params["flavourID"]
+
+	flavour, err := getFlavourByID(flavourID)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	// Respond with the Flavours as JSON
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(flavour)
+}
+
+// getSyntaxes gets the selector syntax
 func getSyntaxes(w http.ResponseWriter, r *http.Request) {
 	selector := getSyntax()
 
@@ -81,6 +101,7 @@ func getSyntaxes(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(selector)
 }
 
+// getTypes get all the available Flavours' types
 func getTypes(w http.ResponseWriter, r *http.Request) {
 	types := getFlavourTypes()
 
@@ -89,7 +110,7 @@ func getTypes(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(types)
 }
 
-// Handler for reserving a Flavour
+// reserveFlavourHandler reserves a Flavour by its flavourID
 func reserveFlavourHandler(w http.ResponseWriter, r *http.Request) {
 	// Get the flavourID value from the URL parameters
 	params := mux.Vars(r)
@@ -125,7 +146,7 @@ func reserveFlavourHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(transaction)
 }
 
-// Handler for purchasing a Flavour
+// purchaseFlavourHandler is an handler for purchasing a Flavour
 func purchaseFlavourHandler(w http.ResponseWriter, r *http.Request) {
 	// Get the flavourID value from the URL parameters
 	params := mux.Vars(r)
