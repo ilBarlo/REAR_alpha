@@ -197,7 +197,8 @@ func purchaseFlavourHandler(w http.ResponseWriter, r *http.Request) {
 	// Remove the transaction from the transactions map
 	delete(transactions, purchase.TransactionID)
 
-	// Delete Flavour that is no longer avaialable
+	// Delete Flavour that is no longer avaialable (in MongoDB)
+	// There will be a function in mongo_manager.go
 
 	// Respond with the FlavourID as JSON
 	w.Header().Set("Content-Type", "application/json")

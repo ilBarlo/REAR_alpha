@@ -1,0 +1,178 @@
+{
+	"info": {
+		"_postman_id": "b05df42e-79ce-4529-ba8f-f254d5e6c662",
+		"name": "REAR Protocol",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "getListFlavours",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/listflavours",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"listflavours"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getFlavourByID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/listflavours/k8s-002",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"listflavours",
+						"k8s-002"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getListFlavours + Selector",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"cpu\": 4,\n  \"ram\": 16,\n  \"type\": \"k8s\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/listflavours/selector",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"listflavours",
+						"selector"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getSelectorSyntax",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/listflavours/selector/syntax",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"listflavours",
+						"selector",
+						"syntax"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getAvailableFlavoursTypes",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/listflavours/selector/type",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"listflavours",
+						"selector",
+						"type"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "postPurchaseFlavour",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"transactionID\": \"1688631403421170000\",\n    \"flavourID\": \"k8s-002\",\n    \"buyerID\": \"barlo\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/purchaseflavour/k8s-002",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"purchaseflavour",
+						"k8s-002"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "postReserveFlavour",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/reserveflavour/k8s-002",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"reserveflavour",
+						"k8s-002"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
