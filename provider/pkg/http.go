@@ -19,7 +19,7 @@ func StartHttpServer() {
 	// routes definition
 	router.HandleFunc("/api/listflavours", listAllFlavoursHandler).Methods("GET")
 	router.HandleFunc("/api/listflavours/{flavourID}", getFlavourByIDHandler).Methods("GET")
-	router.HandleFunc("/api/listflavours/selector", listAllFlavoursSelectorHandler).Methods("GET")
+	router.HandleFunc("/api/listflavours/selector", listAllFlavoursSelectorHandler).Methods("POST")
 	router.HandleFunc("/api/reserveflavour/{flavourID}", reserveFlavourHandler).Methods("POST")
 	router.HandleFunc("/api/purchaseflavour/{flavourID}", purchaseFlavourHandler).Methods("POST")
 	router.HandleFunc("/api/listflavours/selector/syntax", getSyntaxes).Methods("GET")
@@ -61,18 +61,32 @@ func listAllFlavoursSelectorHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Create the selector based on the parsed request
 	selector := Selector{
+		FlavourType: request.FlavourType,
 		CPU:         request.CPU,
 		RAM:         request.RAM,
-		Policy:      request.Policy,
-		FlavourType: request.FlavourType,
+		MoreThanCPU: request.MoreThanCPU,
+		MoreThanRAM: request.MoreThanRAM,
+		LessThanCPU: request.LessThanCPU,
+		LessThanRAM: request.LessThanRAM,
 	}
 
-	fmt.Println(selector)
+	if selector.MoreThanCPU != 0 || selector.MoreThanRAM != 0 {
+		flmatch := findMatchingFlavoursMore(selector)
+		// Respond with the Flavours as JSON
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(flmatch)
+	} else if selector.LessThanCPU != 0 || selector.LessThanRAM != 0 {
+		flmatch := findMatchingFlavoursLess(selector)
+		// Respond with the Flavours as JSON
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(flmatch)
+	} else {
+		flmatch := findMatchingFlavours(selector)
+		// Respond with the Flavours as JSON
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(flmatch)
+	}
 
-	flmatch := findMatchingFlavours(selector)
-	// Respond with the Flavours as JSON
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(flmatch)
 }
 
 // getFlavourByIDHandler gets the single Flavour by its FlavourID
@@ -131,8 +145,6 @@ func reserveFlavourHandler(w http.ResponseWriter, r *http.Request) {
 		StartTime:     startTime,
 	}
 
-	fmt.Println(transaction)
-
 	// Initialize the transactions map if it is nil
 	if transactions == nil {
 		transactions = make(map[string]Transaction)
@@ -167,8 +179,6 @@ func purchaseFlavourHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-
-	fmt.Println(purchase)
 
 	// Check if the transactions map is nil or not initialized
 	if transactions == nil {

@@ -62,10 +62,13 @@ type OptionalFields struct {
 
 // Selector represents the criteria for selecting Flavours.
 type Selector struct {
+	FlavourType string `json:"type,omitempty"`
 	CPU         int    `json:"cpu,omitempty"`
 	RAM         int    `json:"ram,omitempty"`
-	Policy      Policy `json:"policy,omitempty"`
-	FlavourType string `json:"type,omitempty"`
+	MoreThanCPU int    `json:"moreThanCpu,omitempty"`
+	MoreThanRAM int    `json:"moreThanRam,omitempty"`
+	LessThanCPU int    `json:"lessThanCpu,omitempty"`
+	LessThanRAM int    `json:"lessThanRam,omitempty"`
 }
 
 // getSyntax returns the syntax for the selector
@@ -95,3 +98,8 @@ type Purchase struct {
 
 // transactions is a map of Transaction
 var transactions map[string]Transaction
+
+type Type struct {
+	ID          string
+	Description string
+}

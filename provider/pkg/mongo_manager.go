@@ -68,12 +68,53 @@ func findMatchingFlavours(selector Selector) []Flavour {
 	// Placeholder for the list of matching Flavours
 	matchingFlavours := []Flavour{}
 
-	availableFlavours, _ := listAllFlavours()
+	availableFlavours, err := listAllFlavours()
+	fmt.Println(err)
 
 	// Iterate over the list of available Flavours
 	for _, flavour := range availableFlavours {
 		// Check if the Flavour matches the selector criteria
 		if flavourMatchesSelector(flavour, selector) {
+			// Add the matching Flavour to the list
+			matchingFlavours = append(matchingFlavours, flavour)
+		}
+	}
+
+	return matchingFlavours
+}
+
+// findMatchingFlavours find flavours that fit the Selector
+func findMatchingFlavoursLess(selector Selector) []Flavour {
+	// Placeholder for the list of matching Flavours
+	matchingFlavours := []Flavour{}
+
+	availableFlavours, err := listAllFlavours()
+	fmt.Println(err)
+
+	// Iterate over the list of available Flavours
+	for _, flavour := range availableFlavours {
+		// Check if the Flavour matches the selector criteria
+		if flavourMatchesSelectorLess(flavour, selector) {
+			// Add the matching Flavour to the list
+			matchingFlavours = append(matchingFlavours, flavour)
+		}
+	}
+
+	return matchingFlavours
+}
+
+// findMatchingFlavours find flavours that fit the Selector
+func findMatchingFlavoursMore(selector Selector) []Flavour {
+	// Placeholder for the list of matching Flavours
+	matchingFlavours := []Flavour{}
+
+	availableFlavours, err := listAllFlavours()
+	fmt.Println(err)
+
+	// Iterate over the list of available Flavours
+	for _, flavour := range availableFlavours {
+		// Check if the Flavour matches the selector criteria
+		if flavourMatchesSelectorMore(flavour, selector) {
 			// Add the matching Flavour to the list
 			matchingFlavours = append(matchingFlavours, flavour)
 		}
