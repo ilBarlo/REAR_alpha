@@ -1,0 +1,381 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "REAR APIs",
+        "description": "API endpoints for managing Flavours",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/listflavours": {
+            "get": {
+                "summary": "Get all Flavours",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Flavour"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/api/listflavours/{flavourID}": {
+            "get": {
+                "summary": "Get a Flavour by ID",
+                "parameters": [
+                    {
+                        "name": "flavourID",
+                        "in": "path",
+                        "description": "ID of the Flavour",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Flavour"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/api/listflavours/selector": {
+            "get": {
+                "summary": "List Flavours that fit the selector",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Flavour"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/api/reserveflavour/{flavourID}": {
+            "post": {
+                "summary": "Reserve a Flavour",
+                "parameters": [
+                    {
+                        "name": "flavourID",
+                        "in": "path",
+                        "description": "ID of the Flavour",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Purchase"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Transaction"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/api/purchaseflavour/{flavourID}": {
+            "post": {
+                "summary": "Purchase a Flavour",
+                "parameters": [
+                    {
+                        "name": "flavourID",
+                        "in": "path",
+                        "description": "ID of the Flavour",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Purchase"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/api/listflavours/selector/syntax": {
+            "get": {
+                "summary": "Get the syntax for the selector",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Selector"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/api/listflavours/selector/type": {
+            "get": {
+                "summary": "Get all available Flavour types",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Flavour": {
+                "type": "object",
+                "properties": {
+                    "flavourID": {
+                        "type": "string"
+                    },
+                    "providerID": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "characteristics": {
+                        "$ref": "#/components/schemas/Characteristics"
+                    },
+                    "policy": {
+                        "$ref": "#/components/schemas/Policy"
+                    },
+                    "owner": {
+                        "$ref": "#/components/schemas/Owner"
+                    },
+                    "price": {
+                        "$ref": "#/components/schemas/Price"
+                    },
+                    "expirationTime": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "optionalFields": {
+                        "$ref": "#/components/schemas/OptionalFields"
+                    }
+                }
+            },
+            "Characteristics": {
+                "type": "object",
+                "properties": {
+                    "CPU": {
+                        "type": "integer"
+                    },
+                    "RAM": {
+                        "type": "integer"
+                    }
+                }
+            },
+            "Policy": {
+                "type": "object",
+                "properties": {
+                    "partitionable": {
+                        "$ref": "#/components/schemas/Partitionable"
+                    },
+                    "aggregatable": {
+                        "$ref": "#/components/schemas/Aggregatable"
+                    }
+                }
+            },
+            "Partitionable": {
+                "type": "object",
+                "properties": {
+                    "cpuMinimum": {
+                        "type": "integer"
+                    },
+                    "ramMinimum": {
+                        "type": "integer"
+                    },
+                    "cpuStep": {
+                        "type": "integer"
+                    },
+                    "ramStep": {
+                        "type": "integer"
+                    }
+                }
+            },
+            "Aggregatable": {
+                "type": "object",
+                "properties": {
+                    "minCount": {
+                        "type": "integer"
+                    },
+                    "maxCount": {
+                        "type": "integer"
+                    }
+                }
+            },
+            "Owner": {
+                "type": "object",
+                "properties": {
+                    "ID": {
+                        "type": "string"
+                    },
+                    "IP": {
+                        "type": "string"
+                    },
+                    "domainName": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Price": {
+                "type": "object",
+                "properties": {
+                    "amount": {
+                        "type": "number"
+                    },
+                    "currency": {
+                        "type": "string"
+                    },
+                    "period": {
+                        "type": "string"
+                    }
+                }
+            },
+            "OptionalFields": {
+                "type": "object",
+                "properties": {
+                    "availability": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "Selector": {
+                "type": "object",
+                "properties": {
+                    "cpu": {
+                        "type": "integer"
+                    },
+                    "ram": {
+                        "type": "integer"
+                    },
+                    "policy": {
+                        "$ref": "#/components/schemas/Policy"
+                    },
+                    "type": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Transaction": {
+                "type": "object",
+                "properties": {
+                    "transactionID": {
+                        "type": "string"
+                    },
+                    "flavourID": {
+                        "type": "string"
+                    },
+                    "startTime": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
+            },
+            "Purchase": {
+                "type": "object",
+                "properties": {
+                    "transactionID": {
+                        "type": "string"
+                    },
+                    "flavourID": {
+                        "type": "string"
+                    },
+                    "buyerID": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}
