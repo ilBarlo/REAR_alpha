@@ -70,6 +70,8 @@ func listAllFlavoursSelectorHandler(w http.ResponseWriter, r *http.Request) {
 		LessThanRAM: request.LessThanRAM,
 	}
 
+	fmt.Println(selector)
+
 	if selector.MoreThanCPU != 0 || selector.MoreThanRAM != 0 {
 		flmatch := findMatchingFlavoursMore(selector)
 		// Respond with the Flavours as JSON
@@ -117,11 +119,19 @@ func getSyntaxes(w http.ResponseWriter, r *http.Request) {
 
 // getTypes get all the available Flavours' types
 func getTypes(w http.ResponseWriter, r *http.Request) {
-	types := getFlavourTypes()
+	typesFlavour := getFlavourTypes()
+	typeList := []Type{}
 
+	for _, typeF := range typesFlavour {
+		for _, typeS := range types {
+			if typeF == typeS.FlavourType {
+				typeList = append(typeList, typeS)
+			}
+		}
+	}
 	// Respond with the Flavours as JSON
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(types)
+	json.NewEncoder(w).Encode(typeList)
 }
 
 // reserveFlavourHandler reserves a Flavour by its flavourID
@@ -129,6 +139,27 @@ func reserveFlavourHandler(w http.ResponseWriter, r *http.Request) {
 	// Get the flavourID value from the URL parameters
 	params := mux.Vars(r)
 	flavourID := params["flavourID"]
+
+	// Read the request body
+	body, err := io.ReadAll(r.Body)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+
+	var request struct {
+		FlavourID string `json:"flavourID"`
+	}
+
+	err = json.Unmarshal(body, &request)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	if flavourID != request.FlavourID {
+		http.Error(w, "Mismatch body & param", http.StatusConflict)
+		return
+	}
 
 	flavour, _ := getFlavourByID(flavourID)
 	if flavour == nil {
@@ -193,9 +224,9 @@ func purchaseFlavourHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Check if the transaction is still valid (within 10 seconds)
+	// Check if the transaction is still valid (within 20 seconds for testing)
 	elapsedTime := time.Since(transaction.StartTime)
-	if elapsedTime > 10*time.Second {
+	if elapsedTime > 20*time.Second {
 		http.Error(w, "Transaction Timeout", http.StatusInternalServerError)
 		delete(transactions, purchase.TransactionID)
 		return
@@ -212,5 +243,9 @@ func purchaseFlavourHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Respond with the FlavourID as JSON
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(flavourID)
+	json.NewEncoder(w).Encode(ResPur{
+		FlavourID: flavourID,
+		BuyerID:   purchase.BuyerID,
+		Status:    "Completed",
+	})
 }

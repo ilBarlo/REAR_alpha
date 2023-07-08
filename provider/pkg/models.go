@@ -99,7 +99,18 @@ type Purchase struct {
 // transactions is a map of Transaction
 var transactions map[string]Transaction
 
+// types is an array of Type
+var types []Type
+
+// Type contains information regarding the type for a flavour
 type Type struct {
-	ID          string
-	Description string
+	FlavourType string `json:"type"`
+	Description string `json:"description"`
+}
+
+// Res contain information after purchase a Flavour
+type ResPur struct {
+	FlavourID string `json:"flavourID"`
+	BuyerID   string `json:"buyerID"`
+	Status    string `json:"status"`
 }
