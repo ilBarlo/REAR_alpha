@@ -16,7 +16,7 @@ The **REAR protocol** facilitates the efficient exchange of resources and servic
 
 - `GET /api/listflavours`: retrieve all available Flavours.
 - `GET /api/listflavours/{flavourID}`: get a Flavour by the specified ID parameter.
-- `GET /api/listflavours/selector`: list Flavours that match the provided selector.
+- `POST /api/listflavours/selector`: list Flavours that match the provided selector.
 - `POST /api/reserveflavour/{flavourID}`: reserve a Flavour specified by the ID, using the transaction details provided in the request body.
 - `POST /api/purchaseflavour/{flavourID}`: purchase a Flavour specified by the ID, using the transaction details provided in the request body.
 - `GET /api/listflavours/selector/syntax`: get the syntax for the selector.
