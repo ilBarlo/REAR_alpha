@@ -70,8 +70,6 @@ func listAllFlavoursSelectorHandler(w http.ResponseWriter, r *http.Request) {
 		LessThanRAM: request.LessThanRAM,
 	}
 
-	fmt.Println(selector)
-
 	if selector.MoreThanCPU != 0 || selector.MoreThanRAM != 0 {
 		flmatch := findMatchingFlavoursMore(selector)
 		// Respond with the Flavours as JSON
@@ -213,21 +211,21 @@ func purchaseFlavourHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Check if the transactions map is nil or not initialized
 	if transactions == nil {
-		http.Error(w, "No active transactions found", http.StatusNotFound)
+		http.Error(w, "Error: no active transactions found.", http.StatusNotFound)
 		return
 	}
 
 	// Retrieve the transaction from the transactions map
 	transaction, exists := transactions[purchase.TransactionID]
 	if !exists {
-		http.Error(w, "Transaction not found", http.StatusNotFound)
+		http.Error(w, "Error: transaction not found", http.StatusNotFound)
 		return
 	}
 
 	// Check if the transaction is still valid (within 20 seconds for testing)
 	elapsedTime := time.Since(transaction.StartTime)
 	if elapsedTime > 20*time.Second {
-		http.Error(w, "Transaction Timeout", http.StatusInternalServerError)
+		http.Error(w, "Error: transaction Timeout", http.StatusRequestTimeout)
 		delete(transactions, purchase.TransactionID)
 		return
 	}

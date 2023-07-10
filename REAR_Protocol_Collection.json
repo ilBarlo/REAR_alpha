@@ -48,15 +48,12 @@
 		},
 		{
 			"name": "getListFlavours + Selector",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
 			"request": {
-				"method": "GET",
+				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"cpu\": 4,\n  \"ram\": 16,\n  \"type\": \"k8s\"\n}",
+					"raw": "{\n  \"cpu\": 8,\n  \"ram\": 16,\n  \"type\": \"k8s\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -130,7 +127,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"transactionID\": \"1688631403421170000\",\n    \"flavourID\": \"k8s-002\",\n    \"buyerID\": \"barlo\"\n}",
+					"raw": "{\n    \"transactionID\": \"1688975661498458000\",\n    \"flavourID\": \"k8s-002\",\n    \"buyerID\": \"barlo\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -158,6 +155,15 @@
 			"request": {
 				"method": "POST",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"flavourID\": \"k8s-002\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
 					"raw": "http://localhost:8080/api/reserveflavour/k8s-002",
 					"protocol": "http",
