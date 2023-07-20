@@ -26,8 +26,8 @@ func StartHttpServer() {
 	router.HandleFunc("/api/listflavours/selector/type", getTypes).Methods("GET")
 
 	// Start server HTTP
-	fmt.Println("Server listening on port 8080")
-	log.Fatal(http.ListenAndServe(":8080", router))
+	fmt.Println("Server listening on port 14144")
+	log.Fatal(http.ListenAndServe(":14144", router))
 }
 
 // listAllFlavoursHandler handles the request to get all Flavours
