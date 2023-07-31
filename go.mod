@@ -1,4 +1,4 @@
-module github.com/ilBarlo/REAR/tree/main/provider
+module github.com/ilBarlo/REAR/tree/main
 
 go 1.20
 
